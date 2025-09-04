@@ -455,7 +455,7 @@ Surface materials were categorized into UMEP’s landcover classification scheme
 
 Trees grow over time; Figure \ref{fig:canopy.process} illustrates our modeling process for tree canopy growth, described in detail below.
 
-The United States Forest Service (USFS)'s i-Tree platform (Norwalk, 2020) provides canopy width and tree height models for a collection of trees parameterized by the tree's "diameter at breast height" (DBH), the trunk diameter 1.3 meters above the ground . i-Tree also categorizes a much larger selection of trees by DBH growth rate as "slow" (0.23 $\frac{\mathrm{cm}}{\mathrm{yr}}$), "moderate" (0.33 $\frac{\mathrm{cm}}{\mathrm{yr}}$), or "fast" (0.43 $\frac{\mathrm{cm}}{\mathrm{yr}}$).
+The United States Forest Service (USFS)'s i-Tree platform (Nowak et al, 2020) provides canopy width and tree height models for a collection of trees parameterized by the tree's "diameter at breast height" (DBH), the trunk diameter 1.3 meters above the ground . i-Tree also categorizes a much larger selection of trees by DBH growth rate as "slow" (0.23 $\frac{\mathrm{cm}}{\mathrm{yr}}$), "moderate" (0.33 $\frac{\mathrm{cm}}{\mathrm{yr}}$), or "fast" (0.43 $\frac{\mathrm{cm}}{\mathrm{yr}}$).
 
 At some sites, all of the planted trees had canopy growth models in i-Tree. At others, some trees lacked species-specific canopy growth models, so we matched each with the closest entry in the i-Tree collection of canopy models; when the species was not present (e.g. Quercus agrifola), we would used the genus if available, or else the family, or else the order.
 

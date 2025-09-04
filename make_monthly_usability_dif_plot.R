@@ -135,7 +135,7 @@ for (month in names(month_days)) {
 # Define custom x-axis labels
 time_labels <- c("8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm")
 x_values <- 1:steps_per_day
-write.csv(monthly_averages,paste0("/Users/aronwalker/Desktop/v2_",name,".csv"))
+write.csv(monthly_averages,paste0(local_path,name,".csv"))
 # Plot the averages
 plot(x_values, monthly_averages[[1]]*100, type = "l", col = "red", lty = 2,
      xlab = "Time of Day",

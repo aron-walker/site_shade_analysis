@@ -17,7 +17,7 @@ make_monthly_plot <- function(site, year, surface, position, scenario){
     subtitle <- paste0(year, " years of canopy growth", surface_text)
   }
   
-  results_df <- readRDS(paste0("/Users/aronwalker/Documents/tpl/",site,"/intermediates/y",
+  results_df <- readRDS(paste0(local_path,site,"/intermediates/y",
                               year, "_",
                               surface, "_",
                               position, "_",

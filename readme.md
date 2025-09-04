@@ -8,7 +8,7 @@ Prerequisites:
  * Site plan with tree species and location, surface material, and new structures
  * QGIS with the UMEP/SOLWEIG plugin
  * Google Earth Engine account and properly configured R package `rgee`
- * i-Tree data files: itree_height.csv, itree_width.csv
+ * i-Tree data files (extracted from USFS publication): itree_height.csv, itree_width.csv
  * (for report writing) LaTeX distribution for RMarkdown
  * Miscellaneous site-specific parameters (see site_specific_parameters.R)
  

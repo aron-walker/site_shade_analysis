@@ -1,0 +1,159 @@
+Class,Taxon,DBH-Min,DBH-Max,Model,B0,B1,B2
+Order,Cornales,1,27.2,B0 + (DBH * B1) + (DBH2 * B2),5.8018,2.4278,-0.0473
+Order,Dipsacales,1,12.4,B0 + (DBH * B1),9.104,0.6597,
+Order,Ebenales,1,16.1,e(B0 + (ln(DBH) * B1)),1.7794,0.6205,
+Order,Ericales,1,7,e(B0 + (ln(DBH) * B1)),1.9878,0.4638,
+Order,Euphorbiales,1,29.3,e(B0 + (ln(DBH) * B1)),1.5739,0.6114,
+Order,Fabales,1,29,B0 + (DBH * B1) + (DBH2 * B2),6.5789,2.0282,-0.0344
+Order,Fagales,1,67,B0 + (DBH * B1) + (DBH2 * B2),7.1598,1.8053,-0.013
+Order,Gentianales,1,16.5,e(B0 + (ln(DBH) * B1)),1.9985,0.3371,
+Order,Hamamelidales,1,51.2,B0 + (DBH * B1),5.3249,1.5446,
+Order,Juglandales,1,44,B0 + (DBH * B1) + (DBH2 * B2),5.9877,2.0752,-0.0236
+Order,Laurales,1,34.1,B0 + (DBH * B1) + (DBH2 * B2),5.4106,2.023,-0.0303
+Order,Magnoliales,1,52,B0 + (DBH * B1) + (DBH2 * B2),5.9132,1.9798,-0.019
+Order,Malvales,1,40,B0 + (DBH * B1) + (DBH2 * B2),4.76,1.7351,-0.0141
+Order,Myrtales,1,101.6,e(B0 + (ln(DBH) * B1)),0.7593,0.8744,
+Order,Pinales,1.3,39,B0 + (DBH * B1) + (DBH2 * B2),1.786,1.732,-0.0221
+Order,Rhamnales,1,16.4,e(B0 + (ln(DBH) * B1)),1.6669,0.5314,
+Order,Rosales,1,28,B0 + (DBH * B1) + (DBH2 * B2),5.4942,1.9993,-0.0357
+Order,Salicales,1,41.8,B0 + (DBH * B1),2.6658,1.54,
+Order,Sapindales,1,37,B0 + (DBH * B1) + (DBH2 * B2),5.775,2.1928,-0.0294
+Order,Scrophulariales,1,33,B0 + (DBH * B1) + (DBH2 * B2),4.4295,2.2431,-0.0344
+Order,Urticales,1,37,B0 + (DBH * B1) + (DBH2 * B2),5.4569,2.192,-0.0296
+Family,Aceraceae,1,39,B0 + (DBH * B1) + (DBH2 * B2),6.3661,2.102,-0.0267
+Family,Anacardiaceae,1,9.8,e(B0 + (ln(DBH) * B1)),1.6627,0.4459,
+Family,Arecaceae,3.5,38,B0 + (ln(DBH) * B1),0.2355,3.7689,
+Family,Betulaceae,1,30,B0 + (DBH * B1) + (DBH2 * B2),7.0333,1.9312,-0.0309
+Family,Bignoniaceae,1,35.5,e(B0 + (ln(DBH) * B1)),2.1261,0.4604,
+Family,Cornaceae,1,21.3,e(B0 + (ln(DBH) * B1)),2.0322,0.5071,
+Family,Cupressaceae,1,61,e(B0 + (ln(DBH) * B1)),1.0354,0.6262,
+Family,Euphorbiaceae,1,29.3,e(B0 + (ln(DBH) * B1)),1.5732,0.6126,
+Family,Fagaceae,1,67,B0 + (DBH * B1) + (DBH2 * B2),7.122,1.8167,-0.0132
+Family,Hamamelidaceae,1,40,B0 + (DBH * B1),5.5438,1.4528,
+Family,Lythraceae,1,13,exp(B0 + (ln(DBH) * B1,1.917,0.4138,
+Family,Magnoliaceae,1,52,B0 + (DBH * B1) + (DBH2 * B2),5.906,1.9807,-0.0191
+Family,Moraceae,1,58,B0 + (ln(DBH) * B1),4.9539,8.2482,
+Family,Myrtaceae,2,101.6,e(B0 + (ln(DBH) * B1)),0.0761,1.1534,
+Family,Nyssaceae,1,27.2,B0 + (DBH * B1) + (DBH2 * B2),5.9613,2.0986,-0.0233
+Family,Oleaceae,1,35,B0 + (DBH * B1) + (DBH2 * B2),4.3871,2.2158,-0.0317
+Family,Pinaceae,1.3,62.7,e(B0 + (ln(DBH) * B1)),1.3208,0.664,
+Family,Platanaceae,1,51.2,B0 + (DBH * B1) + (DBH2 * B2),6.3993,2.0634,-0.017
+Family,Rhamnaceae,1,16.4,e(B0 + (ln(DBH) * B1)),1.6555,0.5428,
+Family,Rosaceae,1,28,B0 + (DBH * B1) + (DBH2 * B2),5.4745,2.0111,-0.0362
+Family,Rutaceae,1,17,e(B0 + (ln(DBH) * B1)),2.2451,0.3713,
+Family,Scrophulariaceae,1,23,B0 + (ln(DBH) * B1),4.1441,7.1404,
+Family,Simaroubaceae,1,31,B0 + (DBH * B1) + (DBH2 * B2),4.6508,2.5085,-0.0456
+Family,Tiliaceae,1,40,B0 + (DBH * B1) + (DBH2 * B2),4.8669,1.7481,-0.0148
+Family,Ulmaceae,1,38,B0 + (DBH * B1) + (DBH2 * B2),5.4986,2.0888,-0.0227
+Genus,Betula,1,30,B0 + (DBH * B1),6.2408,1.5854,
+Genus,Carpinus,1,15.2,e(B0 + (ln(DBH) * B1)),2.303,0.4174,
+Genus,Carya,1,41,B0 + (DBH * B1) + (DBH2 * B2),6.035,2.0755,-0.0255
+Genus,Catalpa,1,35.5,e(B0 + (ln(DBH) * B1)),2.1204,0.4598,
+Genus,Celtis,1,21,B0 + (DBH * B1) + (DBH2 * B2),4.3952,2.6692,-0.0625
+Genus,Crataegus,1,19.7,e(B0 + (ln(DBH) * B1)),1.8242,0.4338,
+Genus,Cupressus,2.4,61,B0 + (DBH * B1),3.2457,0.6505,
+Genus,Eucalyptus,2,101.6,e(B0 + (ln(DBH) * B1)),-0.0023,1.1862,
+Genus,Fagus,1,35,B0 + (DBH * B1) + (DBH2 * B2),7.7776,2.4516,-0.0348
+Genus,Fraxinus,1,32,B0 + (DBH * B1) + (DBH2 * B2),4.5348,2.3021,-0.0356
+Genus,Gleditsia,1.3,46.2,B0 + (ln(DBH) * B1),1.3613,11.2361,
+Genus,Juglans,1,33,B0 + (DBH * B1),7.01,1.6792,
+Genus,Juniperus,1,23.4,B0 + (DBH * B1) + (DBH2 * B2),2.3613,1.764,-0.0299
+Genus,Liquidambar,1,40,B0 + (DBH * B1) + (DBH2 * B2),4.9881,1.6033,-0.0076
+Genus,Liriodendron,1,52,B0 + (DBH * B1) + (DBH2 * B2),5.5748,1.9963,-0.0186
+Genus,Magnolia,1,50.3,e(B0 + (ln(DBH) * B1)),2.0499,0.4761,
+Genus,Malus,1,29,e(B0 + (ln(DBH) * B1)),1.9915,0.4699,
+Genus,Morus,1,43.1,B0 + (ln(DBH) * B1),5.0899,8.2704,
+Genus,Ostrya,1,13.8,e(B0 + (ln(DBH) * B1)),1.9482,0.5244,
+Genus,Phellodendron,1,17,e(B0 + (ln(DBH) * B1)),2.2625,0.4344,
+Genus,Picea,1,27.1,B0 + (DBH * B1) + (DBH2 * B2),2.8875,1.4568,-0.0125
+Genus,Pinus,1,62.7,e(B0 + (ln(DBH) * B1)),1.3312,0.6651,
+Genus,Populus,1,41.8,B0 + (DBH * B1),2.4739,1.5565,
+Genus,Prunus,1,30,B0 + (DBH * B1) + (DBH2 * B2),5.9632,1.9593,-0.0327
+Genus,Pyrus,1,19.4,B0 + (DBH * B1),4.1849,1.5245,
+Genus,Quercus,1,67,B0 + (DBH * B1) + (DBH2 * B2),5.6153,1.9184,-0.0148
+Genus,Rhus,1,9.8,e(B0 + (ln(DBH) * B1)),1.6641,0.4392,
+Genus,Robinia,1,27,B0 + (DBH * B1) + (DBH2 * B2),6.7187,1.9207,-0.035
+Genus,Salix,1,41.3,e(B0 + (ln(DBH) * B1)),1.6602,0.5908,
+Genus,Sassafras,1,34.1,B0 + (DBH * B1) + (DBH2 * B2),4.8868,2.1566,-0.0339
+Genus,Syringa,1,10.1,e(B0 + (ln(DBH) * B1)),1.5839,0.4015,
+Genus,Thuja,1,35.6,B0 + (DBH * B1) + (DBH2 * B2),1.7205,1.1558,-0.019
+Genus,Tsuga,1.1,36,B0 + (DBH * B1) + (DBH2 * B2),2.9363,1.7714,-0.0239
+Genus,Ulmus,1,38,B0 + (DBH * B1) + (DBH2 * B2),5.66,1.9969,-0.0177
+Genus,Viburnum,1,9.5,B0 + (DBH * B1),11.0379,0.189,
+Species,Acer negundo,1,36,B0 + (DBH * B1) + (DBH2 * B2),5.854,1.9553,-0.0275
+Species,Acer palmatum,1,23.2,B0 + (DBH * B1),6.61,1.7147,
+Species,Acer platanoides,1,37.6,B0 + (DBH * B1) + (DBH2 * B2),5.8975,2.1666,-0.0274
+Species,Acer pseudoplatanus,1,53.2,e(B0 + (ln(DBH) * B1)),1.9314,0.5685,
+Species,Acer rubrum,1,33,B0 + (DBH * B1) + (DBH2 * B2),6.8474,2.1853,-0.0335
+Species,Acer saccharinum,1,70.9,e(B0 + (ln(DBH) * B1)),1.9519,0.5629,
+Species,Acer saccharum,1,32,B0 + (DBH * B1) + (DBH2 * B2),6.4681,2.2287,-0.0351
+Species,Betula papyrifera,1,21.3,B0 + (DBH * B1) + (DBH2 * B2),5.064,1.2265,0.0395
+Species,Betula pendula,1,30,e(B0 + (ln(DBH) * B1)),1.5123,0.571,
+Species,Betula populifolia,1,12.2,e(B0 + (ln(DBH) * B1)),1.9078,0.5326,
+Species,Carpinus caroliniana,1,10.4,B0 + (ln(DBH) * B1),9.0348,6.7159,
+Species,Carya alba,1,38.5,e(B0 + (ln(DBH) * B1)),1.9301,0.5499,
+Species,Carya cordiformis,1,33,e(B0 + (ln(DBH) * B1)),1.946,0.5517,
+Species,Carya glabra,1,23.9,e(B0 + (ln(DBH) * B1)),2.0043,0.4994,
+Species,Carya illinoinensis,1.5,35,e(B0 + (ln(DBH) * B1)),1.7231,0.6653,
+Species,Carya ovata,1,25.2,B0 + (DBH * B1),6.7211,1.6122,
+Species,Catalpa speciosa,1,35.5,e(B0 + (ln(DBH) * B1)),2.0308,0.5362,
+Species,Celtis laevigata,1.3,25,e(B0 + (ln(DBH) * B1)),1.7738,0.6299,
+Species,Celtis occidentalis,1,25.1,B0 + (DBH * B1) + (DBH2 * B2),5.0384,2.3903,-0.0527
+Species,Cornus florida,1,17.6,e(B0 + (ln(DBH) * B1)),2.1047,0.4727,
+Species,Eucalyptus globulus,2,101.6,e(B0 + (ln(DBH) * B1)),-0.0593,1.233,
+Species,Fagus grandifolia,1,36,B0 + (DBH * B1) + (DBH2 * B2),7.8252,2.4359,-0.0335
+Species,Fraxinus americana,1,38,B0 + (DBH * B1) + (DBH2 * B2),4.8708,2.221,-0.0295
+Species,Fraxinus pennsylvanica,1,40,e(B0 + (ln(DBH) * B1)),1.759,0.6078,
+Species,Ilex opaca,1.4,16.5,e(B0 + (ln(DBH) * B1)),1.7641,0.4682,
+Species,Juglans nigra,1,33,e(B0 + (ln(DBH) * B1)),1.8653,0.5878,
+Species,Juniperus virginiana,1,23.4,B0 + (DBH * B1),3.6967,1.2866,
+Species,Lagerstroemia indica,1,10.2,e(B0 + (ln(DBH) * B1)),1.9526,0.3644,
+Species,Liquidambar styraciflua,1,40,B0 + (DBH * B1) + (DBH2 * B2),5.0207,1.5969,-0.0074
+Species,Liriodendron tulipifera,1.3,52,B0 + (DBH * B1) + (DBH2 * B2),5.6119,1.9934,-0.0186
+Species,Magnolia grandiflora,1,26,e(B0 + (ln(DBH) * B1)),1.9737,0.4751,
+Species,Malus pumila,1.2,22,e(B0 + (ln(DBH) * B1)),2.2312,0.3735,
+Species,Morus alba,1,43.1,B0 + (ln(DBH) * B1),5.5645,7.96,
+Species,Morus rubra,1,22.2,e(B0 + (ln(DBH) * B1)),2.0067,0.5491,
+Species,Picea abies,2.5,27.1,B0 + (DBH * B1),5.0275,1.3419,
+Species,Picea glauca,1,19.7,e(B0 + (ln(DBH) * B1)),1.3573,0.5622,
+Species,Picea pungens,1.5,21.7,B0 + (DBH * B1) + (DBH2 * B2),3.1772,1.3664,-0.0162
+Species,Pinus elliottii,5,25,e(B0 + (ln(DBH) * B1)),1.2235,0.7611,
+Species,Pinus nigra,2.2,24,B0 + (DBH * B1) + (DBH2 * B2),5.6682,1.6952,-0.036
+Species,Pinus radiata,1.9,62.7,e(B0 + (ln(DBH) * B1)),1.4297,0.5938,
+Species,Pinus strobus,1,37.2,B0 + (DBH * B1) + (DBH2 * B2),3.3445,1.5814,-0.0142
+Species,Pinus taeda,1,34,e(B0 + (ln(DBH) * B1)),1.1535,0.7313,
+Species,Pinus virginiana,1.1,19,e(B0 + (ln(DBH) * B1)),1.5891,0.6557,
+Species,Platanus hybrida,1,45,B0 + (DBH * B1) + (DBH2 * B2),3.9088,2.6747,-0.0329
+Species,Platanus occidentalis,1,51.2,e(B0 + (ln(DBH) * B1)),1.9074,0.5682,
+Species,Populus balsamifera,1,23.2,B0 + (DBH * B1),4.1386,1.1984,
+Species,Populus deltoides,1,41.8,B0 + (DBH * B1),4.3047,1.6294,
+Species,Populus tremuloides,1,9,B0 + (DBH * B1) + (DBH2 * B2),1.2786,2.3693,-0.1346
+Species,Prunus avium,1.1,33.4,e(B0 + (ln(DBH) * B1)),1.9615,0.5056,
+Species,Prunus serotina,1,28,B0 + (DBH * B1) + (DBH2 * B2),6.1133,2.0116,-0.0355
+Species,Prunus virginiana,1.1,25.4,e(B0 + (ln(DBH) * B1)),1.7052,0.5541,
+Species,Pyrus calleryana,1.1,15.6,B0 + (DBH * B1),3.3114,1.7738,
+Species,Quercus alba,1,51.6,B0 + (DBH * B1) + (DBH2 * B2),5.5617,1.8924,-0.0109
+Species,Quercus falcata,1,37,B0 + (DBH * B1) + (DBH2 * B2),3.2783,2.3124,-0.0246
+Species,Quercus nigra,1,42,B0 + (DBH * B1) + (DBH2 * B2),4.1202,2.269,-0.0263
+Species,Quercus palustris,1,40.1,B0 + (DBH * B1) + (DBH2 * B2),7.7679,1.7229,-0.011
+Species,Quercus phellos,1.2,37,B0 + (DBH * B1) + (DBH2 * B2),3.8672,2.1683,-0.0297
+Species,Quercus prinus,1.8,41.5,e(B0 + (ln(DBH) * B1)),2.1046,0.4575,
+Species,Quercus rubra,1,67,B0 + (DBH * B1) + (DBH2 * B2),6.5916,1.7597,-0.011
+Species,Quercus stellata,1,28,e(B0 + (ln(DBH) * B1)),1.1202,0.8338,
+Species,Quercus velutina,1,54.6,B0 + (DBH * B1) + (DBH2 * B2),4.7156,1.8432,-0.0116
+Species,Quercus virginiana,2.7,50.3,B0 + (DBH * B1) + (DBH2 * B2),4.905,1.959,-0.0166
+Species,Rhamnus cathartica,1,16.4,e(B0 + (ln(DBH) * B1)),1.6671,0.5227,
+Species,Rhus hirta,1,9.8,e(B0 + (ln(DBH) * B1)),1.6611,0.4203,
+Species,Robinia pseudoacacia,1,27,B0 + (DBH * B1) + (DBH2 * B2),6.4707,2.0431,-0.0381
+Species,Salix nigra,1.2,25.2,e(B0 + (ln(DBH) * B1)),1.6136,0.6141,
+Species,Salix sericea,1,29.3,e(B0 + (ln(DBH) * B1)),1.5732,0.6126,
+Species,Syringa vulgaris,1.1,10.1,e(B0 + (ln(DBH) * B1)),1.6104,0.454,
+Species,Thuja occidentalis,1,35.6,B0 + (DBH * B1) + (DBH2 * B2),1.8741,1.0552,-0.0141
+Species,Tilia americana,1,40,B0 + (DBH * B1) + (DBH2 * B2),5.2194,1.8045,-0.0195
+Species,Tilia cordata,2.4,27,B0 + (ln(DBH) * B1),-11.1093,14.6509,
+Species,Tsuga canadensis,1.1,36,B0 + (DBH * B1) + (DBH2 * B2),2.9619,1.7751,-0.0242
+Species,Ulmus alata,1,24,e(B0 + (ln(DBH) * B1)),1.5054,0.7179,
+Species,Ulmus americana,1,38,B0 + (DBH * B1) + (DBH2 * B2),5.642,2.0847,-0.0193
+Species,Ulmus crassifolia,1,17,B0 + (DBH * B1) + (DBH2 * B2),3.8747,1.9785,-0.0015
+Species,Ulmus pumila,1,36,B0 + (DBH * B1),2.7381,1.6825,
+Species,Ulmus rubra,1.1,37,e(B0 + (ln(DBH) * B1)),2.1143,0.4987,

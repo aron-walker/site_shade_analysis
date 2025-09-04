@@ -1,0 +1,493 @@
+---
+title: "Cooling Benefits Report"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    fig_caption: yes
+    extra_dependencies: ["float"]
+header-includes:
+   - \usepackage{caption}
+   - \captionsetup{labelfont=it, textfont=it}
+   - \usepackage{fancyhdr}
+   - \pagestyle{fancy}
+   - \fancyfoot[CO,CE]{Draft version; not for public dissemination}
+   - \fancyfoot[LE,RO]{\thepage}
+   - \usepackage{float}
+   - \floatplacement{figure}{H}
+bibliography: references.bib
+---
+
+```{r libaries, include=FALSE}
+library(tidyverse)
+library(sf)
+library(raster)
+library(rasterVis)
+library(terra)
+library(ggplot2)
+library(viridis)
+library(ggnewscale)
+library(pbapply)
+#library(kableExtra)
+local_path <- ""
+script_path <- ""
+gee_path <- ""
+
+library(knitr)
+opts_chunk$set(fig.pos = "H", out.extra = "")
+opts_knit$set(eval.after = "fig.cap")
+```
+
+```{r shadevsurfaceplotprep, include = FALSE}
+shadevsurfaceplot <- function(site, name){
+##### met analysis
+# Step 1: Read the data
+met_data <- read.table(paste0(local_path,site,"/met_data/2023_8am_to_8pm.txt"),
+                       header = TRUE, fill = TRUE, stringsAsFactors = FALSE)
+
+# Step 2: Process the data
+# Convert `Tair` to numeric, if necessary
+met_data$Tair <- as.numeric(met_data$Tair)
+
+# Add a column to identify each day
+# The day starts from hour 15, so we need to adjust this
+met_data$Day <- (met_data$it >= 15) * met_data$id + (met_data$it < 15) * (met_data$id - 1)
+
+# Group by `Day` and find the max `Tair` for each day
+daily_max <- met_data %>%
+  group_by(Day) %>%
+  summarize(MaxTair = max(Tair, na.rm = TRUE))
+
+# Find the day with the highest max `Tair`
+max_tair_day <- daily_max %>%
+  filter(MaxTair == max(MaxTair)) %>%
+  dplyr::select(Day, MaxTair)
+
+# Calculate the 90th percentile for max `Tair`
+percentile_90 <- quantile(daily_max$MaxTair, 0.90, na.rm = TRUE)
+
+# Find days with max `Tair` in the 90th percentile and above
+high_tair_days <- daily_max %>%
+  filter(MaxTair >= percentile_90)
+
+######
+
+years <- seq(0,20,5)
+position <- 1
+if (site == "corlears"){toggle <- 1} else {toggle <- 0}
+results_0_no <- readRDS(paste0(local_path,site,"/intermediates/y",
+                            years[1], "_",
+                            0+toggle, "_",
+                            position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_5_no <- readRDS(paste0(local_path,site,"/intermediates/y",
+                            years[2], "_",
+                            0+toggle, "_",
+                            position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_10_no <- readRDS(paste0(local_path,site,"/intermediates/y",
+                             years[3], "_",
+                             0+toggle, "_",
+                             position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_15_no <- readRDS(paste0(local_path,site,"/intermediates/y",
+                             years[4], "_",
+                             0+toggle, "_",
+                             position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_20_no <- readRDS(paste0(local_path,site,"/intermediates/y",
+                             years[5], "_",
+                             0+toggle, "_",
+                             position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_0 <- readRDS(paste0(local_path,site,"/intermediates/y",
+                             years[1], "_",
+                             1, "_",
+                             position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_5 <- readRDS(paste0(local_path,site,"/intermediates/y",
+                            years[2], "_",
+                            1, "_",
+                            position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_10 <- readRDS(paste0(local_path,site,"/intermediates/y",
+                            years[3], "_",
+                            1, "_",
+                            position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_15 <- readRDS(paste0(local_path,site,"/intermediates/y",
+                            years[4], "_",
+                            1, "_",
+                            position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_20 <- readRDS(paste0(local_path,site,"/intermediates/y",
+                            years[5], "_",
+                            1, "_",
+                            position, "_0_results.rds")) %>%
+  mutate(delta_mean_mrt = baseline_mean_mrt - future_mean_mrt) %>%
+  mutate(delta_mean_wbgt = baseline_mean_wbgt - future_mean_wbgt)
+
+results_0_no$day <- met_data$Day
+results_5_no$day <- met_data$Day
+results_10_no$day <- met_data$Day
+results_15_no$day <- met_data$Day
+results_20_no$day <- met_data$Day
+results_0$day <- met_data$Day
+results_5$day <- met_data$Day
+results_10$day <- met_data$Day
+results_15$day <- met_data$Day
+results_20$day <- met_data$Day
+
+mean_0_max <- results_0 %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_5_max <- results_5 %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_10_max <- results_10 %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_15_max <- results_15 %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_20_max <- results_20 %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+
+mean_0_p90 <- results_0 %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_5_p90 <- results_5 %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_10_p90 <- results_10 %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_15_p90 <- results_15 %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_20_p90 <- results_20 %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+
+mean_0_all <- results_0 %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_5_all <- results_5 %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_10_all <- results_10 %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_15_all <- results_15 %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_20_all <- results_20  %>% 
+  pull(delta_mean_mrt) %>% mean()
+
+means_all <- c(mean_0_all,mean_5_all,mean_10_all,mean_15_all,mean_20_all)
+means_p90 <- c(mean_0_p90,mean_5_p90,mean_10_p90,mean_15_p90,mean_20_p90)
+means_max <- c(mean_0_max,mean_5_max,mean_10_max,mean_15_max,mean_20_max)
+
+mean_0_no_max <- results_0_no %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_5_no_max <- results_5_no %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_10_no_max <- results_10_no %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_15_no_max <- results_15_no %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_20_no_max <- results_20_no %>% 
+  dplyr::filter(day == as.numeric(max_tair_day[1])) %>% 
+  pull(delta_mean_mrt) %>% mean()
+
+mean_0_no_p90 <- results_0_no %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_5_no_p90 <- results_5_no %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_10_no_p90 <- results_10_no %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_15_no_p90 <- results_15_no %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_20_no_p90 <- results_20_no %>% 
+  dplyr::filter(day %in% high_tair_days$Day) %>% 
+  pull(delta_mean_mrt) %>% mean()
+
+mean_0_no_all <- results_0_no %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_5_no_all <- results_5_no %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_10_no_all <- results_10_no %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_15_no_all <- results_15_no %>% 
+  pull(delta_mean_mrt) %>% mean()
+mean_20_no_all <- results_20_no  %>% 
+  pull(delta_mean_mrt) %>% mean()
+
+means_all_no <- c(mean_0_no_all,mean_5_no_all,mean_10_no_all,mean_15_no_all,mean_20_no_all)
+means_p90_no <- c(mean_0_no_p90,mean_5_no_p90,mean_10_no_p90,mean_15_no_p90,mean_20_no_p90)
+means_max_no <- c(mean_0_no_max,mean_5_no_max,mean_10_no_max,mean_15_no_max,mean_20_no_max)
+
+# Sample Data
+surface_all <- means_all-means_all_no
+surface_p90 <- means_p90-means_p90_no
+surface_max <- means_max-means_max_no
+shade_all <- means_all_no
+shade_p90 <- means_p90_no
+shade_max <- means_max_no
+
+# Create a data frame
+df_all <- data.frame(
+  Year = years,
+  Surface = surface_all,
+  Shade = shade_all+surface_all
+)
+
+# Create a data frame
+df_p90 <- data.frame(
+  Year = years,
+  Surface = surface_p90,
+  Shade = shade_p90+surface_p90
+)
+
+# Create a data frame
+df_max <- data.frame(
+  Year = years,
+  Surface = surface_max,
+  Shade = shade_max+surface_max
+)
+
+ggplot(df_all, aes(x = Year)) +
+  geom_ribbon(aes(ymin = 0, ymax = Surface), fill = "blue", alpha = 0.3) +  
+  geom_ribbon(aes(ymin = Shade, ymax = Surface), fill = "green", alpha = 0.3) +  
+  geom_line(aes(y = Surface), color = "blue", linewidth = 1) +
+  geom_line(aes(y = Shade), color = "darkgreen", linewidth = 1) +
+  labs(x = "Years After Renovation", y = "Mean Decrease in MRT (°C)",
+       title = paste0("Average over all modeled hours at ",name)) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0,6)) + 
+  annotate("text", x = mean(years), y = 0.4, 
+         label = "Cooling from surface changes", color = "blue", size = 4, hjust = 0.5) +
+  annotate("text", x = mean(years), y = max(df_all$Shade)/2, 
+           label = "Cooling from shade", color = "darkgreen", size = 4, hjust = 0.5)
+}
+```
+
+```{r mean_aggregate_metric_table, echo = FALSE, message = FALSE, warning = FALSE}
+get_mean <- function(site,year,surface,metric){
+  readRDS(paste0(local_path,site,"/intermediates/y",year,"_",surface,"_1_0_results.rds")) %>% pull(paste0("future_mean_",metric)) %>% mean(na.rm = TRUE)
+}
+
+mean_MRT_20 <- c(get_mean("chicago",20,1,"mrt"),
+                get_mean("corlears",20,1,"mrt"),
+                get_mean("los_angeles",20,1,"mrt"),
+                get_mean("vince",20,1,"mrt"))
+mean_WBGT_20 <- c(get_mean("chicago",20,1,"wbgt"),
+                get_mean("corlears",20,1,"wbgt"),
+                get_mean("los_angeles",20,1,"wbgt"),
+                get_mean("vince",20,1,"wbgt"))
+mean_UTCI_20 <- c(get_mean("chicago",20,1,"utci"),
+                  get_mean("corlears",20,1,"utci"),
+                  get_mean("los_angeles",20,1,"utci"),
+                  get_mean("vince",20,1,"utci"))
+mean_MRT_0 <- c(get_mean("chicago",0,0,"mrt"),
+                get_mean("corlears",0,1,"mrt"),
+                get_mean("los_angeles",0,0,"mrt"),
+                get_mean("vince",0,0,"mrt"))
+mean_WBGT_0 <- c(get_mean("chicago",0,0,"wbgt"),
+                get_mean("corlears",0,1,"wbgt"),
+                get_mean("los_angeles",0,0,"wbgt"),
+                get_mean("vince",0,0,"wbgt"))
+mean_UTCI_0 <- c(get_mean("chicago",0,0,"utci"),
+                 get_mean("corlears",0,1,"utci"),
+                 get_mean("los_angeles",0,0,"utci"),
+                 get_mean("vince",0,0,"utci"))
+
+table_1_data <- cbind(mean_MRT_0, mean_MRT_20, mean_MRT_20 - mean_MRT_0,
+                      mean_WBGT_0, mean_WBGT_20, mean_WBGT_20 - mean_WBGT_0,
+                      mean_UTCI_0, mean_UTCI_20, mean_UTCI_20 -  mean_UTCI_0)
+row.names(table_1_data) <- c(chicago_short, corlears_short,los_angeles_short, vince_short)
+colnames(table_1_data) <- c("baseline MRT", "20 year MRT", "MRT change", "baseline WBGT", "20 year WBGT", "WBGT change", "baseline UTCI", "20 year UTCI", "UTCI change")
+knitr:: kable(table_1_data, row.names = TRUE, digits = c(1,1,1,2,2,2,1,1,1), caption = "Change in average aggregate thermal exposure by site in °C, baseline vs. 20 years")
+```
+
+```{r hottest_aggregate_metric_table, echo = FALSE, message = FALSE, warning = FALSE}
+
+get_hottest <- function(site, year, surface, metric){
+  data <- paste0(local_path,site,"/intermediates/y",year,"_",surface,"_1_0_results.rds") %>% readRDS()
+  timestep_with_max <- data %>% arrange(baseline_mean_mrt) %>% tail(1) %>% pull(timestep)
+  data %>% filter(timestep == timestep_with_max) %>% pull(paste0("future_mean_",metric)) %>% return()
+}
+
+hottest_MRT_20 <- c(get_hottest("chicago",20,1,"mrt"),
+                get_hottest("corlears",20,1,"mrt"),
+                get_hottest("los_angeles",20,1,"mrt"),
+                get_hottest("vince",20,1,"mrt"))
+hottest_WBGT_20 <- c(get_hottest("chicago",20,1,"wbgt"),
+                get_hottest("corlears",20,1,"wbgt"),
+                get_hottest("los_angeles",20,1,"wbgt"),
+                get_hottest("vince",20,1,"wbgt"))
+hottest_UTCI_20 <- c(get_hottest("chicago",20,1,"utci"),
+                     get_hottest("corlears",20,1,"utci"),
+                     get_hottest("los_angeles",20,1,"utci"),
+                     get_hottest("vince",20,1,"utci"))
+hottest_MRT_0 <- c(get_hottest("chicago",0,0,"mrt"),
+                get_hottest("corlears",0,1,"mrt"),
+                get_hottest("los_angeles",0,0,"mrt"),
+                get_hottest("vince",0,0,"mrt"))
+hottest_WBGT_0 <- c(get_hottest("chicago",0,0,"wbgt"),
+                get_hottest("corlears",0,1,"wbgt"),
+                get_hottest("los_angeles",0,0,"wbgt"),
+                get_hottest("vince",20,0,"wbgt"))
+hottest_UTCI_0 <- c(get_hottest("chicago",0,0,"utci"),
+                    get_hottest("corlears",0,1,"utci"),
+                    get_hottest("los_angeles",0,0,"utci"),
+                    get_hottest("vince",0,0,"utci"))
+
+table_2_data <- cbind(hottest_MRT_0, hottest_MRT_20, hottest_MRT_20 - hottest_MRT_0,
+                      hottest_WBGT_0, hottest_WBGT_20, hottest_WBGT_20 -  hottest_WBGT_0,
+                      hottest_UTCI_0, hottest_UTCI_20, hottest_UTCI_20 - hottest_UTCI_0)
+row.names(table_2_data) <- c(chicago_short, corlears_short,los_angeles_short, vince_short)
+colnames(table_2_data) <- c("baseline MRT", "20 year MRT", "MRT change", "baseline WBGT", "20 year WBGT", "WBGT change", "baseline UTCI", "20 year UTCI", "UTCI change")
+knitr:: kable(table_2_data, row.names = TRUE, digits = c(1,1,1,2,2,2,1,1,1), caption = "Change in highest thermal exposure by site in °C, baseline vs. 20 years")
+
+```
+
+```{r hottesthourmapschicago, echo=FALSE, fig.show='hold', out.width="50%", cache = TRUE, fig.cap=paste0("\\label{fig:hottesthourmapschicago} caption text")}
+source(paste0(script_path,"map_results.R"))
+map_hottest_timestep <- function(site, year, surface,name){
+  toggle <- 0
+  if (site == "corlears"){toggle <- 1}
+  data <- paste0(local_path,site,"/intermediates/y",0,"_",0+toggle,"_1_0_results.rds") %>% readRDS()
+  timestep_with_max <- data %>% arrange(baseline_mean_mrt) %>% tail(1) %>% pull(timestep)
+  raster_hour_step <- timestep_with_max %% 13
+  raster_day <- 100+ (timestep_with_max - raster_hour_step) / 13
+  map_results(site, 0, 0+toggle, 1, 0, "narrow_boundary", raster_day, raster_hour_step+7,name)
+  map_results(site, year, surface, 1, 0, "narrow_boundary", raster_day, raster_hour_step+7,name)
+}
+map_hottest_timestep("chicago",0,0,chicago_short)
+map_hottest_timestep("chicago",20,1,chicago_short)
+```
+
+```{r hottesthourmapscorlears, echo=FALSE, fig.show='hold', out.width="50%", cache = TRUE, fig.cap=paste0("\\label{fig:hottesthourmapscorlears} caption text")}
+map_hottest_timestep("corlears",0,1,corlears_short)
+map_hottest_timestep("corlears",20,1,corlears_short)
+```
+
+```{r hottesthourmapsla, echo=FALSE, fig.show='hold', out.width="50%", cache = TRUE, fig.cap=paste0("\\label{fig:hottesthourmapsla} caption text")}
+map_hottest_timestep("los_angeles",0,0,los_angeles_short)
+map_hottest_timestep("los_angeles",20,1,los_angeles_short)
+```
+
+```{r hottesthourmapsvince, echo=FALSE, fig.show='hold', out.width="50%", cache = TRUE, fig.cap=paste0("\\label{fig:hottesthourmapsvince} caption text")}
+map_hottest_timestep("vince",0,0,vince_short)
+map_hottest_timestep("vince",20,1,vince_short)
+```
+
+```{r hourlycoolingvariation, echo=FALSE, fig.show='hold', out.width="50%", cache = TRUE, fig.cap=paste("\\label{fig:hourlycoolingvariation} caption text")}
+map_results("corlears", 20, 1, 1, 0, "narrow_boundary", 200, 10,corlears_short)
+map_results("corlears", 20, 1, 1, 0, "narrow_boundary", 200, 13,corlears_short)
+```
+
+```{r monthlyhourlyplot, echo=FALSE, fig.show='hold', out.width="50%", cache = TRUE, fig.cap="\\label{fig:monthlyhourlyplo} caption text"}
+source(paste0(script_path,"make_monthly_plot.R"))
+make_monthly_plot("chicago", 20, 1, 1, 0)
+make_monthly_plot("corlears", 20, 1, 1, 0)
+make_monthly_plot("los_angeles", 20, 1, 1, 0)
+make_monthly_plot("vince", 20, 1, 1, 0)
+```
+
+
+```{r usabilityplots, echo = FALSE, message = FALSE, warning = FALSE, cache = FALSE, fig.show = 'hold', out.width ="50%", fig.cap="\\label{fig:usabilityplots} caption text"}
+source(paste0(script_path,"make_monthly_usability_dif_plot.R"))
+make_monthly_usability_dif_plot("chicago",20,1,1,0,1,"narrow_boundary",chicago_short)
+make_monthly_usability_dif_plot("corlears",20,1,1,0,1,"narrow_boundary",corlears_short)
+make_monthly_usability_dif_plot("los_angeles",20,1,1,0,1,"narrow_boundary",los_angeles_short)
+make_monthly_usability_dif_plot("vince",20,1,1,0,1,"narrow_boundary",vince_short)
+```
+
+
+```{r coolingefficiency, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.show = 'hold', out.width="100%", fig.cap=paste0("\\label{fig:coolingefficiency} caption text")}
+source(paste0(script_path,"calc_cooling_efficiency.R"))
+calc_cooling_efficiency(1)
+```
+
+```{r shadevsurfaceplots, echo = FALSE, message = FALSE, warning = FALSE, , warning = FALSE, out.width = "50%", out.height = "100%", fig.height = 8, fig.show = "hold", cache = TRUE, fig.cap=paste0("\\label{fig:shadevsurfaceplots} caption text")}
+
+shadevsurfaceplot("chicago",chicago_short)
+shadevsurfaceplot("corlears",corlears_short)
+shadevsurfaceplot("los_angeles",los_angeles_short)
+shadevsurfaceplot("vince",vince_short)
+```
+
+## Acknowledgments
+
+This analysis was conducted mostly with free, open-source software and we are grateful to the many who have developed these tools: QGIS, SOLWEIG, Python, R, RMarkdown, and the R libraries `tidyverse`, `raster`, `rasterVis`, `terra`, `sf`, `rgee`, `viridis`, and `ggnewscale`. We are also grateful to Google for making Earth Engine freely available to researchers and OpenAI's ChatGPT for accelerating development of several parts of the code.
+
+## Data and Methods
+
+### Landcover models
+
+Surface materials were categorized into UMEP’s landcover classification scheme, differentiating pavement, buildings, grass, and bare soil. We classified mulched planting areas that in the future will be ground covers and shrubs as "grass", decomposed granite as "bare soil", and both concrete and playground tiles as "pavement".
+
+### Canopy models
+
+Trees grow over time; Figure \ref{fig:canopy.process} illustrates our modeling process for tree canopy growth, described in detail below.
+
+The United States Forest Service (USFS)'s i-Tree platform (Norwalk, 2020) provides canopy width and tree height models for a collection of trees parameterized by the tree's "diameter at breast height" (DBH), the trunk diameter 1.3 meters above the ground . i-Tree also categorizes a much larger selection of trees by DBH growth rate as "slow" (0.23 $\frac{\mathrm{cm}}{\mathrm{yr}}$), "moderate" (0.33 $\frac{\mathrm{cm}}{\mathrm{yr}}$), or "fast" (0.43 $\frac{\mathrm{cm}}{\mathrm{yr}}$).
+
+At some sites, all of the planted trees had canopy growth models in i-Tree. At others, some trees lacked species-specific canopy growth models, so we matched each with the closest entry in the i-Tree collection of canopy models; when the species was not present (e.g. Quercus agrifola), we would used the genus if available, or else the family, or else the order.
+
+USFS's Urban Forest Effects (UFORE) model further _[specifies](https://www.itreetools.org/documents/53/UFORE%20Methods.pdf)_ that growth rates be scaled proportional to the standardized number of frost-free days ($FFD$):
+
+$$ DBH(t)_i = DBH_0 + r_i \frac{FFD}{153} t $$
+
+where $t$ indexes years, $DBH_0$ is the initial diameter at breast height, $r_i \in \{0.23, 0.33, 0.44 \} \frac{\mathrm{cm}}{\mathrm{yr}}$ is the species-specific growth rate, and $FFD$ is the number of frost free days per year. For initial DHB, we used trunk caliper when listed in plans (e.g. 4" caliper trees were assigned 4" $DBH_0$); when height was given instead, we back-calculated the corresponding DBH from the i-Tree height model. 
+
+From these models, we projected tree canopy at 5, 10, 15, and 20 years into the future; when tree canopies overlapped, we assigned the higher height value. We also included the gazebo shade structure as an additional (non-growing) canopy. We then added all these new canopies to the existing CDSM to make an input CDSM for each modeling year (Figure \ref{fig:canopy.rasters}).
+
+```{r canopy.rasters, echo = FALSE, message = FALSE, warning = FALSE, , cache = TRUE, warning= FALSE,fig.cap="\\label{fig:canopy.rasters} caption text"}
+source(paste0(script_path,"make_canopy_rasters.R"))
+  show_canopy_rasters("corlears",0)
+```
+
+### Meteorological data
+
+We used Google Earth Engine (Gorelick, 2017) to source hourly meteorological data from the National Weather Service’s Real-Time Mesoscale Analysis (RTMA) (de Pondeca, 2011) and the European Center for Midrange Weather Forecasting’s ERA5-Land reanalysis (Munoz-Sabater, 2021) models, preferring RTMA when possible due to its finer spatial resolution. One hour was not retrieved (9am on July 10th) and so was linearly interpolated from the two adjacent hours.
+
+### SOLWEIG model
+
+We used the UMEP Pre-Processor to generate rasters of wall height and wall aspect based on the pre-renovation digital surface model and sky view factor rasters for each canopy raster. We then ran the main SOLWEIG model for the meteorological data from every hour 8am to 8pm for every day April 9 through October 26th, 2023, predicting MRT as it was and how it would have been with surface changes and modeled 5, 10, 15, and 20-year tree canopies.
+
+### WBGT, UTCI, and Usability
+
+We converted each hourly MRT raster into a WBGT raster using the algorithm from (Brimicombe, 2022), using our meteorological data to provide local estimates for air temperature, relative humidity, and wind, which we assumed to be uniform across the site, that is, that the renovations only decreased the MRT component of WBGT. We did the same for UTCI. We then compared the resulting hourly WBGT maps with WBGT thermal exposure standards for youth sports from (Grundstein, 2015) to assess the fraction of each schoolyard that was "usable" for each hour of each day.
+
+### Limitations
+
+Three technical limitations merit discussion. First, all absolute temperature predictions are conditional on the quality of the input meteorological data, which comes from models integrating data from several local weather stations with larger weather models. Urban microclimates present potentially significant spatial heterogeneity; our absolute temperature predictions are no more reliable than the accuracy with which RTMA and ERA5-Land predict the temperature, humidity, and radiative forcing at our site. That said, to understand the effect of the renovations, we are generally interested in the *differences* between simulations with and without renovations; deviations between reanalysis models and reality cancel out. The same applies to interdecadal changes in ambient temperature – we expect all sites to get hotter as average global temperature rises, but this effect is the same with and without renovations, so the cooling from these renovations remains the same. Changes to "usability" would increase as a warmer temperature distribution pushes more days/times into the critical usability region where renovations make the difference between "usable" and "unusable".
+
+Second, future work should test the accuracy of the i-Tree canopy growth models as we have applied them. For many trees, we needed to use a different species as an analog and especially for those matched only at the family or order level the growth equations we used may not adequately model the particular species planted. Even genus-level models may be inadequate -- certainly different species of *Quercus*, for example, grow differently and at different rates. While we have applied what we believe to be the best available models to this problem, species-specific models would be superior, especially those derived from settings similar to schoolyards. In addition, i-Tree growth models may not accurately predict canopy growth in the specific setting of school play yards and their particular arboricultural practices. We encourage TPL to document the growth of the trees it has planted, in particular their canopy width and height, to calibrate future models. In the absence of field data, future work could build models from other school renovations using canopy data from high resolution aerial images such as Google Maps or the National Agriculture Imagery Program.
+
+Third, we have treated all parts of the renovated space as equally important from a thermal exposure perspective in calculating averages when in fact children likely spend more of their time in some places (the playground, benches, walkway, field) than others (in the middle of planted areas). Future work could explore the cooling of specific places within the site and/or integrate field observations to construct a use-weighted spatial average or individual-level exposure assessment.
